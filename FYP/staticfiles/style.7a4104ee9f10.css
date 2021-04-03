@@ -1,0 +1,265 @@
+/*
+    ADDITIONAL DEMO STYLE, NOT IMPORTANT TO MAKE THINGS WORK BUT TO MAKE IT A BIT NICER :)
+*/
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+html{
+    overflow-y: scroll;
+
+}
+
+
+
+#content {
+    background-color:#ebe8e7;
+    width : 86.5%;
+    min-height: 100%
+
+}
+
+#inner_content {
+    border: 1px;
+    top:7vh;
+
+    height: 180vh;
+    margin: 5vh;
+    margin-bottom: 0;
+    background-color:white;
+
+}
+
+#headbar {
+    position: fixed;
+    border:.5px solid black;
+    height: 6vh;
+    width: 150%;
+    background-color: #7386D5;
+}
+
+#headtitle {
+    text-align: center;
+    float :left;
+    margin-left: 40vw;
+    border: #003366;
+    padding-top: 10px;
+    color: #fafafa;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #ebe8e7;
+
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+#sidebar {
+    /* don't forget to add all the previously mentioned styles here too */
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+#page_title{
+
+    text-align: center;
+    padding-top: 15px;
+
+
+}
+#MLpage_title{
+    float: right;
+}
+
+#scores{
+    width: 75vw;
+    height: 6vh;
+    background:#FEFDFF;
+    border: 1px solid black;
+    align-self: center;
+    align-content: center;
+    margin-left: 5vw;
+}
+#score1{
+    height: 6vh;
+    width: 20%;
+    border-bottom: 2px solid black;
+    border-right: 1px solid black;
+    float: left;
+    padding-left: 8px;
+    background: #f2c76e;
+}
+#score2{
+    float:left;
+    padding-left: 8px;
+    border-bottom: 2px solid black;
+    height: 6vh;
+    width: 20%;
+    border-right: 1px solid black;
+    background: #f2c76e;
+}
+#score3{
+    float:right;
+    height: 6vh;
+    border-bottom: 2px solid black;
+    width: 20%;
+    padding-left: 8px;
+    border-right: 1px solid black;
+    background: #bd9dea;
+}
+
+#graph_container {
+    border-bottom: 2px groove darkgrey;
+    border-left: 1px solid black;
+    background-color: #fafafa;
+    margin: 1vw 5vw;
+    height: 56vh;
+    width: 75vw;
+    overflow: auto;
+    align-content: center;
+    align-self: center;
+}
+#ml_graph_container {
+    border: 2px outset darkgrey;
+    background-color: #fafafa;
+    margin: 1vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    height: 50vh;
+    width: 75vw;
+    align-content: center;
+    overflow: auto;
+}
+
+#desc_container {
+    border-right: 1px solid black;
+    background:#FEFDFF;
+    margin: 1vw;
+    margin-left: 5vw;
+    padding-left: 1vw;
+    float: left;
+    height: 35vh ;
+    width: 35vw;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    word-wrap: break-word
+
+}
+#desc_text{
+    word-wrap: break-word;
+}
+.attr{
+    padding-top: 1vh;
+}
+
+#pie_container {
+
+    border-left: 1px solid black;
+
+    background:#FEFDFF;
+    margin: 1vw;
+    float: right;
+    margin-right: 5vw;
+    height: 40vh ;
+    width: 30vw;
+    padding: 2vh;
+}
+#pie_label {
+    text-align: center;
+}
+
+#sentiment_stock{
+    display: inline-block;
+    overflow: auto;
+    height: 35vh;
+}
+
+#scroll_list {
+    position: fixed;
+    overflow-y: scroll;
+
+}

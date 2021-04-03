@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="Django default">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.19">
+    <root id="1">
+      <ServerVersion>13.2</ServerVersion>
+      <StartupTime>1613649901</StartupTime>
+    </root>
+    <database id="2" parent="1" name="postgres">
+      <ObjectId>13395</ObjectId>
+      <Comment>default administrative connection database</Comment>
+      <Owner>postgres</Owner>
+      <Current>1</Current>
+    </database>
+    <schema id="3" parent="2" name="information_schema">
+      <ObjectId>13111</ObjectId>
+      <StateNumber>293</StateNumber>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="4" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+      <Comment>system catalog schema</Comment>
+      <StateNumber>286</StateNumber>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="5" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <Comment>standard public schema</Comment>
+      <StateNumber>287</StateNumber>
+      <Owner>postgres</Owner>
+      <Current>1</Current>
+    </schema>
+  </database-model>
+</dataSource>

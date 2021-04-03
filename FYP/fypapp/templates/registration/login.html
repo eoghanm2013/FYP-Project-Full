@@ -1,0 +1,24 @@
+{% extends "basic.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Map Page" %}{% endblock %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{% block body_content %}
+<body>
+
+
+    <!-- templates/registration/login.html -->
+     <div id="login">
+        <h2>Log In</h2>
+        <form id="loginform" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">Log In</button>
+        </form>
+     </div>
+</body>
+{% endblock %}
+</html>

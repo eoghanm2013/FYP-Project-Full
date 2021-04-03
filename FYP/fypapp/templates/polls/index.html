@@ -1,0 +1,495 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Map Page" %}{% endblock %}
+
+<!DOCTYPE html>
+<html lang="en">
+{% block extra_header %}
+    <head>
+        <title>Is this title working??</title>
+    </head>
+
+{% endblock %}
+{% block body_content %}
+ <body>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"></script>
+    <h2 id="page_title">Stock Price Vs Sentiment</h2>
+    <h3 id="c_title" style="text-align: center"></h3>
+
+
+
+    <div id="graph_container">
+
+         <canvas id="myChart" width="400" height="150"></canvas>
+            <script>
+                const data = [];
+                const xlabels = [];
+                const comps =[];
+                const closeprice = []
+                const pos =[];
+                const neg = [] ;
+                const neu = [];
+
+                const p_sent = [];
+                const p_EMA = [];
+                const p_5day = [];
+                const p_5dayEMA = [];
+                const p_sentimentEMA = [];
+                const p_realprice = [];
+
+                var MA5score = []
+                var EMA5score = []
+                var EMAscore = []
+                var sentMAscore = []
+                var Brand = []
+                var CEO = []
+                var Revenue = []
+                var Industry = []
+                var Location = []
+                var Employees = []
+
+
+                chartSentiment()
+
+                async function chartSentiment(){
+                    await getData()
+                    const ctx = document.getElementById('myChart').getContext('2d');
+
+                    const data = {
+                          labels: xlabels,
+                          datasets: [{
+                              label: "Stock Price",
+                              fill: false,
+                              lineTension: 0.1,
+                              backgroundColor: "rgba(225,0,100,0.4)",
+                              borderColor: "red", // The main line color
+                              borderCapStyle: 'square',
+                              borderDash: [], // try [5, 15] for instance
+                              borderDashOffset: 0.0,
+                              borderJoinStyle: 'miter',
+                              pointBorderColor: "black",
+                              pointBackgroundColor: "white",
+                              pointBorderWidth: 1,
+                              pointHoverRadius: 8,
+                              pointHoverBackgroundColor: "yellow",
+                              pointHoverBorderColor: "brown",
+                              pointHoverBorderWidth: 2,
+                              pointRadius: 3,
+                              pointHitRadius: 10,
+                              // notice the gap in the data and the spanGaps: true
+                              data:closeprice,
+                              spanGaps: true,
+                              yAxisID: 'stock-y-axis'
+                            }, {
+                              label: "Brand Sentiment",
+                              fill: false,
+                              lineTension: 0.1,
+                              backgroundColor: "rgba(167,105,0,0.4)",
+                              borderColor: "rgb(167, 105, 0)",
+                              borderCapStyle: 'butt',
+                              borderDash: [],
+                              borderDashOffset: 0.0,
+                              borderJoinStyle: 'miter',
+                              pointBorderColor: "white",
+                              pointBackgroundColor: "black",
+                              pointBorderWidth: 1,
+                              pointHoverRadius: 8,
+                              pointHoverBackgroundColor: "brown",
+                              pointHoverBorderColor: "yellow",
+                              pointHoverBorderWidth: 2,
+                              pointRadius: 3,
+                              pointHitRadius: 10,
+                              // notice the gap in the data and the spanGaps: false
+                              data: comps,
+                              yAxisID: 'sentiment-y-axis',
+                              spanGaps: false,
+                            }
+
+                          ]
+                        };
+
+                    var options = {
+                          scales: {
+                                    yAxes: [{
+                                        type: 'linear',
+                                        display: 'true',
+                                        position: 'left',
+                                        id: 'stock-y-axis',
+                                        ticks: {
+                                            beginAtZero:false,
+                                        },
+                                        scaleLabel: {
+                                             display: true,
+                                             labelString: 'Stock',
+                                             fontSize: 20
+                                          }
+                                    }, {
+                                        type: 'linear',
+                                        display: 'true',
+                                        position: 'right',
+                                        id: 'sentiment-y-axis',
+                                        ticks: {
+                                            beginAtZero:false,
+                                        },
+                                        scaleLabel: {
+                                             display: true,
+                                             labelString: 'Sentiment',
+                                             fontSize: 20
+                                          }
+                                    }
+                                    ]
+                                }
+                        };
+
+                    const myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: data,
+                        options:options
+                    });
+                }
+
+
+           <!--  PIE CHART CREATION   -->
+            async function countPie(){
+                //await getData()
+                let posSum=0
+                let negSum=0
+                let neuSum=0
+                const threshold = 0.14
+                size = comps.length
+                console.log(size)
+                for (var i=0;i<size;i++){
+                    posSum = posSum+pos[i]
+                    negSum = negSum+neg[i]
+                    neuSum = neuSum+neu[i]
+                }
+                //console.log(posSum)
+                //console.log(negSum)
+                //console.log(neuSum)
+
+                // DRAW PIE
+                const ctx = document.getElementById('sentiPiechart').getContext('2d');
+                Chart.defaults.scale.ticks.beginAtZero = true
+
+                let pieChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Positive', 'Negative', 'Neutral'],
+                        datasets: [
+                            {
+                                label: 'Tweet Sentiment Proportions',
+                                backgroundColor: ['#16a085', '#ff0000', '#f1c40f'],
+                                data: [posSum*2, negSum*2, neuSum]
+                            }
+                        ]
+                    },
+                    options: {
+                        cutoutPercentage: 35,
+                        animations: {
+                            animateScale: true
+                        }
+                    }
+                });
+            }
+
+            async function getCompany(){
+                document.getElementById('c_name').innerHTML = `Company Name: ${Brand[0]}`
+                document.getElementById('ceo_name').innerHTML = `CEO/Director: ${CEO[0]}`
+                document.getElementById('revenue').innerHTML = `Revenue: ${Revenue[0]}`
+                document.getElementById('industry').innerHTML = `Industry: ${Industry[0]}`
+                document.getElementById('location').innerHTML = `Located: ${Location[0]}`
+                document.getElementById('emp_count').innerHTML = `Employee Count: ${Employees[0]}`
+                document.getElementById('c_title').innerHTML = `${Brand[0]}`
+                //get scores
+                //console.log(sentMAscore)
+                document.getElementById('MA5day').innerHTML = `5-day MA ML Accuracy: ${MA5score}`
+                document.getElementById('EMA').innerHTML = `EMA ML Accuracy: ${EMAscore}`
+                document.getElementById('EMA5day').innerHTML = `5-day+EMA Combined MA ML Accuracy: ${EMA5score}`
+                document.getElementById('sentEMA').innerHTML = `Sentiment+EMA Combined ML Accuracy: ${(sentMAscore)}`
+                document.getElementById('improve').innerHTML = `SentiEMA Model Improvement on EMA5day: ${(sentMAscore-EMA5score).toFixed(2)}%`
+
+            }
+
+            <!--ML GRAPH FUNCTION-->
+            async function graphML(){
+                    //console.log(p_realprice)
+                    //console.log(p_sentimentEMA)
+                    //await getData()
+                    const ctx = document.getElementById('graphML').getContext('2d');
+
+                    const data = {
+                          labels: p_realprice,
+                          datasets: [{
+                              label: "SentiStock Regression Model",
+                              fill: false,
+                              lineTension: 0.1,
+                              backgroundColor: "rgba(225,0,100,0.4)",
+                              borderColor: "red", // The main line color
+                              borderCapStyle: 'square',
+                              borderDash: [], // try [5, 15] for instance
+                              borderDashOffset: 0.0,
+                              borderJoinStyle: 'miter',
+                              pointBorderColor: "black",
+                              pointBackgroundColor: "white",
+                              pointBorderWidth: 1,
+                              pointHoverRadius: 8,
+                              pointHoverBackgroundColor: "yellow",
+                              pointHoverBorderColor: "brown",
+                              pointHoverBorderWidth: 2,
+                              pointRadius: 3,
+                              pointHitRadius: 10,
+                              // notice the gap in the data and the spanGaps: true
+                              data:p_sentimentEMA,
+                              spanGaps: true,
+                              yAxisID: 'stock-y-axis'
+                            }, {
+                              label: "5-day Movinig Average",
+                              fill: false,
+                              lineTension: 0.1,
+                              backgroundColor: "rgba(167,105,0,0.4)",
+                              borderColor: "darkgreen",
+                              borderCapStyle: 'butt',
+                              borderDash: [],
+                              borderDashOffset: 0.0,
+                              borderJoinStyle: 'miter',
+                              pointBorderColor: "white",
+                              pointBackgroundColor: "black",
+                              pointBorderWidth: 1,
+                              pointHoverRadius: 8,
+                              pointHoverBackgroundColor: "yellow",
+                              pointHoverBorderColor: "yellow",
+                              pointHoverBorderWidth: 2,
+                              pointRadius: 3,
+                              pointHitRadius: 10,
+                              // notice the gap in the data and the spanGaps: false
+                              data: p_5day,
+                              yAxisID: 'stock-y-axis',
+                              spanGaps: false,
+                            },{
+                              label: "Actual Price",
+                              fill: false,
+                              lineTension: 0.1,
+                              backgroundColor: "rgba(167,105,0,0.4)",
+                              borderColor: "rgb(167, 105, 0)",
+                              borderCapStyle: 'butt',
+                              borderDash: [],
+                              borderDashOffset: 0.0,
+                              borderJoinStyle: 'miter',
+                              pointBorderColor: "white",
+                              pointBackgroundColor: "black",
+                              pointBorderWidth: 1,
+                              pointHoverRadius: 8,
+                              pointHoverBackgroundColor: "brown",
+                              pointHoverBorderColor: "yellow",
+                              pointHoverBorderWidth: 2,
+                              pointRadius: 3,
+                              pointHitRadius: 10,
+                              // notice the gap in the data and the spanGaps: false
+                              data: p_realprice,
+                              yAxisID: 'stock-y-axis',
+                              spanGaps: false,
+                            },{
+                              label: "Moving Average ML Prediction",
+                              fill: false,
+                              lineTension: 0.1,
+                              backgroundColor: "rgba(167,105,0,0.4)",
+                              borderColor: "blue",
+                              borderCapStyle: 'butt',
+                              borderDash: [],
+                              borderDashOffset: 0.0,
+                              borderJoinStyle: 'miter',
+                              pointBorderColor: "white",
+                              pointBackgroundColor: "black",
+                              pointBorderWidth: 1,
+                              pointHoverRadius: 8,
+                              pointHoverBackgroundColor: "brown",
+                              pointHoverBorderColor: "yellow",
+                              pointHoverBorderWidth: 2,
+                              pointRadius: 3,
+                              pointHitRadius: 10,
+                              // notice the gap in the data and the spanGaps: false
+                              data: p_EMA,
+                              yAxisID: 'stock-y-axis',
+                              spanGaps: false,
+                          }
+
+                          ]
+                        };
+
+                    var options = {
+                          scales: {
+                                    yAxes: [{
+                                        type: 'linear',
+                                        display: 'true',
+                                        position: 'left',
+                                        id: 'stock-y-axis',
+                                        ticks: {
+                                            beginAtZero:false,
+                                        },
+                                        scaleLabel: {
+                                             display: true,
+                                             labelString: 'Stock Price ($)',
+                                             fontSize: 20
+                                          }
+
+
+                                    }
+                                    ]
+                                }
+                        };
+                    const myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: data,
+                        options:options,
+                    });
+
+            }
+
+            //getData();
+    <!-- This bit of script will access my rest api and query using the url parameter -->
+            async function getData() {
+                const queryString = window.location.href;
+                const url = new URL(queryString)
+                const query = url.pathname
+                var api = '/api/brands'
+                var predApi = '/api/predictions'
+                var infoApi = '/api/companyinfo'
+                var infoEndpoint = infoApi.concat(query)
+                var endpoint = api.concat(query)
+                var predEndpoint = predApi.concat(query)
+                const response = await fetch(endpoint)
+                const predResponse = await fetch(predEndpoint)
+                const infoResponse = await fetch(infoEndpoint)
+                const data = await response.json()
+                const predData = await predResponse.json()
+                const infoData = await infoResponse.json()
+                const predSize = predData.length
+                const size = data.length
+                //console.log(infoData[0])
+                if (size < 2000){
+                    MA5score.push(infoData[0].MA5score)
+                    EMA5score.push(infoData[0].EMA5score)
+                    EMAscore.push(infoData[0].EMA5score)
+                    sentMAscore.push(infoData[0].sentMAscore)
+                    Brand.push(infoData[0].Brand)
+                    CEO.push(infoData[0].CEO)
+                    Revenue.push(infoData[0].Revenue)
+                    Industry.push(infoData[0].Industry)
+                    Location.push(infoData[0].Location)
+                    Employees.push(infoData[0].Employees)
+
+
+
+                    for (var i=0; i<size; i++){
+                        day = data[i].day
+                        xlabels.push(day)
+                        compound = data[i].comp
+                        comps.push(compound)
+                        price = data[i].closeprice
+                        closeprice.push(price)
+                        positive = data[i].pos
+                        pos.push(positive)
+                        negative = data[i].neg
+                        neg.push(negative)
+                        neutral = data[i].neu
+                        neu.push(neutral)
+                    }
+                    for ( i =0; i < predSize;i++){
+                        sent = predData[i].p_sentiment
+                        p_sent.push(sent)
+                        day5 = predData[i].p_5day
+                        p_5day.push(day5)
+                        day5EMA = predData[i].p_5dayEMA
+                        p_5dayEMA.push(day5EMA)
+                        realprice = predData[i].p_realprice
+                        p_realprice.push(realprice)
+                        sentimentEMA = predData[i].p_sentimentEMA
+                        p_sentimentEMA.push(sentimentEMA)
+                        EMA = predData[i].p_EMA
+                        p_EMA.push(EMA)
+
+                    }
+                }
+                //console.log(p_sent)
+                countPie()
+                graphML()
+                getCompany()
+            }
+            </script>
+    </div>
+
+
+     <div id="desc_container">
+         <h2>Company Information</h2>
+         <h5 class="attr" id="c_name"></h5>
+         <h5 class="attr" id="ceo_name"></h5>
+         <h5 class="attr" id="revenue"></h5>
+         <h5 class="attr" id="industry"></h5>
+         <h5 class="attr" id="location"></h5>
+         <h5 class="attr" id="emp_count"></h5>
+         <br>
+
+
+         </div>
+         <div id="pie_container">
+             <p>Hey! Click the coloured labels to hide or display data.</p>
+             <canvas id="sentiPiechart" ></canvas>
+             <h3 id="pie_label">Tweet Sentiment Proportions</h3>
+         </div>
+
+         <!-- ML model vs moving average graph -->
+    <div id="ML">
+        <h2 id="MLpage_title">Price Prediction Model Using Machine Learning</h2>
+         <div id="ml_graph_container">
+             <p>Hey! Click the coloured labels to hide or display data.</p>
+             <canvas id="graphML" width="400" height="135"></canvas>
+         </div>
+
+        <div id="scores">
+           <div id="score1">
+                <h6 id="MA5day">5-day MA ML Accuracy:</h6>
+           </div>
+
+           <div id="score2">
+                <h6 id="EMA">EMA ML Accuracy:</h6>
+           </div>
+           <div id="score2">
+                <h6 id="EMA5day">5-day + EMA Combined ML Accuracy:</h6>
+           </div>
+            <div id="score2">
+                <h6 id="sentEMA">Sentiment + EMA Combined ML Accuracy: </h6>
+        </div>
+            <div id="score3">
+                <h6 id="improve"></h6>
+            </div>
+
+
+        </div>
+    </div>
+    <h2 id="newstitle">Trending News</h2>
+    <div id="news">
+                <div class="container">
+            <div class="row">
+                {% for onedata in data.articles %}
+
+                    <div class="col-sm">
+                        <div class="card " style="width: 18rem;">
+                            <img src="{{onedata.urlToImage}}" class="card-img-top" alt="{{onedata.source.name}}">
+                            <div class="card-body ">
+                                <h5 class="card-title ">{{onedata.title}}</h5>
+                                <p class="card-text">{{onedata.description|truncatechars:150}}</p>
+                                <a href="{{onedata.url}}" target="blank" class="btn btn-primary">Read</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            </div>
+
+    </div>
+ </body>
+{% endblock %}
+
+</html>

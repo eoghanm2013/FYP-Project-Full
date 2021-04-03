@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<title>News APP</title>
+</head>
+<body>
+<div class="container">
+<div class="row">
+{% for onedata in data.articles %}
+<div class="col-sm">
+<div class="card " style="width: 18rem;">
+<img src="{{onedata.urlToImage}}" class="card-img-top" alt="{{onedata.source.name}}">
+<div class="card-body ">
+<h5 class="card-title ">{{onedata.title}}</h5>
+<p class="card-text">{{onedata.description|truncatechars:150}}</p>
+<a href="{{onedata.url}}" target="blank" class="btn btn-primary">Read</a>
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+</body>
+</html>

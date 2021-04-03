@@ -1,0 +1,29 @@
+id;ma5score;ema5score;emascore;sentmascore;brand;ceo;revenue;industry;location;employees
+1;0.81;0.81;0.63;0.84;Activision;Bobby Kotick;6 489 billion;Video Game Company;California Unites States;9,200
+2;0.7;0.75;0.7;0.8;Adidas;Kasper Rorsted;21.92 billion;Sportswear;Herzogenaurach Germany;59,000
+3;0.95;0.95;0.92;0.94;AIG;Brian Duperrault;49.75 billion;Insurance company;New York United States;49,600
+4;0.5;0.53;0.48;0.66;Amazon;Jeff Bezos;1.7 trillion;E-commerce;Washington United States;1300000
+5;0.66;0.68;0.64;0.7;Apple;Tim Cook;2 trillion;Technology;California United States;6000
+6;0.51;0.53;0.42;0.65;AT&T;John Stankly;171.8 billion;Telecommunications;Texas United States;230,000
+7;0.41;0.54;0.52;0.7;CVS;Larry Merlo;256.58 billion;Retail Pharmacy;Rhode Island United States;290,000
+8;0.7;0.77;0.76;0.75;Dell;Michael S Dell;90.6 billion;Computer company;Texas United States;165,000
+9;0.92;0.94;0.93;0.94;Disney;Bob Chapek;65.39 billion;Media company;California United States;223,000
+10;0.59;0.63;0.59;0.65;EA;Andrew Wilson;5.54 billion;Video games company;California United States;9700
+11;0.78;0.69;0.6;0.75;EasyJet;Johan Lundgren;3.3 billion;Airlines;Luton United Kingdom;14,000
+12;0.64;0.68;0.73;0.7;Exxon;Darren Woods;264.9 billion;Gas company;Texas United States;74,900
+13;0.74;0.78;0.8;0.79;Ford;Jim Farley;155.9 billion;Automaker company;Michigan United States;175,000
+14;0.68;0.81;0.79;0.8;Guardian;Annette Thomas;254.4 million;Media Company;London United Kingdom;869
+15;0.68;0.72;0.59;0.74;Hertz;Paul Stone;9.48 billion;Car rental company;Chicago Unites States;38,000
+16;0.78;0.75;0.71;0.81;Intel;Patrick Gelsinger;77.87 billion;Technology company;California United States;110,000
+17;0.59;0.58;0.46;0.65;Lowes;Marvin Ellison;72.15 billion;Retail;North Carolina United States;200,000
+18;0.91;0.92;0.89;0.95;Microsoft;Satya Nadella;143 billion;Technology;Washington United States;163,000
+19;0.15;0.33;0.31;0.52;Netflix;Ted Sarandos;25 billion;Production Company;California United States;9,400
+20;0.47;0.46;0.33;0.51;Nike;John Donahoe;37.4 billion;Footwear manufacturing company;Oregon United States;75,400
+21;0.85;0.87;0.79;0.86;Nintendo;Shuntaro Furukawa;36.6 billion;Video Games company;Kyoto Japan;6,200
+22;0.7;0.83;0.8;0.88;Pepsi;Ramon Laguarta;67.16 billion;Food company;New York United States;267,000
+23;0.63;0.59;0.49;0.64;Pfizer;Albert Bourla;51.75 billion;Pharmaceutical company;New York United States;88,300
+24;0.92;0.91;0.9;0.92;Samsung;Kim Hyun Suk;211.2 billion;Multinational Conglomerate;Seoul Korea;287,437
+25;0.42;0.55;0.55;0.62;Sony;Kenichiro Yoshida;76 billion;Multinational conglomerate company;Tokyo Japan;111,700
+26;0.52;0.5;0.49;0.51;Starbucks;Kevin Johnson;26.5 billion;Coffee house company;Washington UNited States;346,000
+27;0.78;0.8;0.78;0.8;Ubisoft;Yves Guillemot;1.59 billion;Video Game company;Montreuil France;18,045
+28;0.49;0.75;0.63;0.83;Walmart;Doug McMillan;559.2 billion;Retail;Arkansas United States;2,200,000
