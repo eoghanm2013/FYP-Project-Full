@@ -18,6 +18,6 @@ fypbackend-----> The backend processes are found in fypbackend. This is where th
 		 and the processing happens before the data is sent to the Database.
 		 The scripts in this folder are ran using a task scheduler.
 		 Twot app has the scraper.py which runs 24/7 get restarted once a day
-		 AggData app analyser.py which runs once a day after 9pm
+		 AggData app analyser.py which runs once a day after 9pm on weekdays
 		 Predicitons app has predictions.py and runs once a day after scheduled an 90 mins after
-		 anaylyser.py.
+		 anaylyser.py on weekdays
