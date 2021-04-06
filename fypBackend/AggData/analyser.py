@@ -214,7 +214,7 @@ fullset = aggset
 for dfs in fullset:
 
     for i in range(0, len(fullset[dfs])):
-        start = fullset[dfs]['Date'].iloc[i]
+        start = date_time
 
         print(type(start))
         try:
